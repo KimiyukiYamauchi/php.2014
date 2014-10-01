@@ -26,27 +26,26 @@ if(isset($_POST['_submit_check'])){
 $bmi = round($bmi, 1);
 
 print "BMI値は{$bmi}で、";
-?>
 
-<?php if($bmi < 18.5): ?>
-やせ過ぎです
-<?php endif; ?>
-<?php if ($bmi > 25) : ?>
-太り過ぎです
-<?php else : ?>
-標準です
-<?php endif; ?>
+if($bmi < 18.5){
+	echo "やせ過ぎです";
+}else if($bmi > 25){
+	echo "太り過ぎです";
+}else{
+	echo "標準です";
+}
+?>
 
 <?php }else{ ?>
 
-	<form method="POST" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
+<form method="POST" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
 身長：
-  <input type="text" name="height">
+<input type="text" name="height">
 <br />体重：
-  <input type="text" name="mass">
+<input type="text" name="mass">
 <br />
-  <input type="submit" value="BMI値計算">
-  <input type="hidden" name="_submit_check" value="1">
+<input type="submit" value="BMI値計算">
+<input type="hidden" name="_submit_check" value="1">
 </form>
 <?php } ?>
 </body>
