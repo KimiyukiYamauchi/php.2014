@@ -1,14 +1,14 @@
 <?php
-function uranai($uranai){
+function select_random($array){
 	// 範囲を求めて$min/$max変数に記憶
 	$min = 0;
-	$max = count($uranai) - 1;
+	$max = count($array) - 1;
 
 	// mt_rand()関数の結果を$key変数に記憶
 	$key = mt_rand($min, $max);
 
 	// 結果を$result変数に記憶
-	$result = $uranai[$key];
+	$result = $array[$key];
 
 	return $result;
 }
@@ -22,18 +22,18 @@ $uranai[] = "小吉今日はまったり過ごしてみては";
 $uranai[] = "末吉ですPHPの勉強をするといいことがあるでしょう";
 $uranai[] = "大凶です今日は自宅でゆっくり過ごしてください";
 
-var_dump($uranai);
+//var_dump($uranai);
 
 ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-	<meta charset="UTF-8">
-	<title>おみくじ</title>
+<meta charset="UTF-8">
+<title>おみくじ</title>
 </head>
 <body>
 
-<p>あなたが引いたおみくじの結果は、「<?php print uranai($uranai); ?>」</p>
+<p>あなたが引いたおみくじの結果は、「<?php print select_random($uranai); ?>」</p>
 <!--<a href="<?php echo $_SERVER['SCRIPT_NAME']; ?>">もう一度</a>-->
 <button onclick="location.reload()">もう一度</button>
 
