@@ -14,6 +14,13 @@ if(isset($_POST['sex'])){
 	$sex = $seibetu[$_POST['sex']];
 }
 
+$douken = array( 1 => "北海道", 2 => "青森県", 3 => "岩手県", 47 => "沖縄県");
+
+$pref = "不明";
+
+if(isset($_POST['pref'])){
+	$pref = $douken[$_POST['pref']];
+}
 
 ?>
 <!DOCTYPE html>
@@ -28,6 +35,7 @@ if(isset($_POST['sex'])){
 <li>パスワード：<?php echo $password; ?></li>
 <li>備考：<br /><?php echo $note; ?></li>
 <li>性別：<?php echo $sex; ?></li>
+<li>都道府県：<?php echo $pref; ?></li>
 </ul>
 
 <p>
