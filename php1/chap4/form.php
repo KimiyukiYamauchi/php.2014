@@ -30,6 +30,13 @@
 <option value="3">岩手県</option>
 <option value="47">沖縄県</option>
 </select><br />
+趣味<br />
+<input type="checkbox" name="hobby[]" value="1">ネット
+<input type="checkbox" name="hobby[]" value="2">読書
+<input type="checkbox" name="hobby[]" value="3">ショッピング
+<input type="checkbox" name="hobby[]" value="4">サイクリング
+<input type="checkbox" name="hobby[]" value="5">投資
+<br />
 
 <input type="submit" value="データ送信">
 </form>
