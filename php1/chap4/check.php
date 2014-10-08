@@ -1,10 +1,19 @@
 <?php
 
-//var_dump($_POST);
+var_dump($_POST);
 
 $name = $_POST['name'];
 $password = $_POST['password'];
 $note = nl2br($_POST['note']);
+
+$seibetu = array( 1 => "男性", 2 => "女性", 9 => "回答しない");
+
+$sex = "不明";
+
+if(isset($_POST['sex'])){
+	$sex = $seibetu[$_POST['sex']];
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -18,6 +27,7 @@ $note = nl2br($_POST['note']);
 <li>なまえ：<?php echo $name; ?></li>
 <li>パスワード：<?php echo $password; ?></li>
 <li>備考：<br /><?php echo $note; ?></li>
+<li>性別：<?php echo $sex; ?></li>
 </ul>
 
 <p>
