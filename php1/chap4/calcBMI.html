@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script>
+/*
+ DOMを使って動的にフォームを作り出すサンプル
+ */
+window.onload = function(){
+	var vbody = document.body
+	, vform = createElement("form",vbody)
+	, vbox = [] 
+	, vbutton
+	, vdiv
+	;
+	// 身長入力用BOX
+	vbox["height"] = createElement("input",vform
+		,{id:"height",type:"text",placeholder:"身長(cm)"}
+	);
+	// 体重入力用BOX
+	vbox["weight"] = createElement("input",vform
+		,{id:"weight",type:"text",placeholder:"体重(kg)"}
+	);
+	// 実行ボタン
+	vbutton = createElement("button",vform
+		,{id:"button",type:"button",innerText:"exec"}
+	);
+	// 結果表示領域
+	vdiv = createElement("div",vbody
+		,{id:"display",innerText:"ここに表示します"}
+	);
+
+	vbutton.addEventListener("click",function() {
+		var bmi = calcBMI(+vbox["height"].value, +vbox["weight"].value);
+		var message = "あなたのBMI値は" + bmi;
+		if (bmi > 25 ) {
+			message += "基準値を超えています"; 
+		}
+		display.innerText = message;
+	},false);
+};
+
+function calcBMI(height, weight){
+	return (weight / (height * height / 10000));
+}
+
+function createElement(tagName,parentNode,optProp){
+	var elem = document.createElement(tagName);
+	for (var key in optProp) {
+		elem[key] = optProp[key];
+	};
+	parentNode.appendChild(elem);
+	return elem;
+}
+</script>
