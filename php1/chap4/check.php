@@ -1,6 +1,19 @@
 <?php
 
+//require_once('config.php');
+
 //var_dump($_POST);
+
+if(!isset($_POST['submit'])){
+	$host = $_SERVER['SERVER_NAME'];
+	$url = $_SERVER['SCRIPT_NAME'];
+	$url = str_replace("check.php", "form.php", $url);
+
+	//var_dump($host);
+
+	header("location: http://{$host}{$url}" );
+//	header("location: " . FORM_URL);
+}
 
 $name = $_POST['name'];
 $password = $_POST['password'];
@@ -33,7 +46,7 @@ if(isset($_POST['hobby'])){
 	}
 }
 
-var_dump($hobbys);
+//var_dump($hobbys);
 
 ?>
 <!DOCTYPE html>
