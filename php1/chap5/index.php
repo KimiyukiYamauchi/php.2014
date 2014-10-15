@@ -1,5 +1,5 @@
 <?php
-
+require_once('common.php');
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -19,7 +19,7 @@ div.content {
 </head>
 <body>
 <h1>ひよこ掲示板</h1>
-<form action="">
+<form action="write.php" method="post">
 名前<br />
 <input type="text" name="name" value="" size="24"><br />
 コメント<br />
@@ -27,16 +27,18 @@ div.content {
 <input type="submit" name="submit" value="書き込み"><br />
 </form>
 <?php
-
+$records = bbs_read();
+$records = array_reverse($records);
+foreach($records as $key => $record) {
 ?>
 <div class="content">
-<span class="id">11</span>
-<span class="name">名前：山内</span>
-<span class="time">2014年10月15日 19:38:00</span>
-<p class="comment">コメント１行目<br />コメント２行目<br />コメント３行目</p>
+<span class="id"><?php print h($key + 1); ?></span>
+<span class="name">名前：<?php print h($record['name']); ?></span>
+<span class="time"><?php print date("Y年m月d日 H時i分s秒", intval($record['time'])); ?></span>
+<p class="comment"><?php print nl2br(h($record['comment'])); ?></p>
 </div>
 <?php
-
+}
 ?>
 </body>
 </html>
