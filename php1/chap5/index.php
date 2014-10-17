@@ -18,6 +18,8 @@ if(isset($_POST['submit'])){
 		if(!$result){
 			$errors['result'] = '書き込みに失敗しました';
 		}else{
+			// 一度、書き込んだ後、ブラウザのリロードで、同じ投稿が書き込まれてしまう
+			// 問題の修正
 			header("Location: http://". $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME']);
 			exit;
 		}
