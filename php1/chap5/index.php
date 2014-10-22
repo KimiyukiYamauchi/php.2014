@@ -4,10 +4,11 @@ require_once('check.php');
 
 $errors = array();
 
-var_dump($_POST);
-
 // submitボタンが押されたら書き込み
 if(isset($_POST['submit'])){
+
+	// フォームに入力された値を$defaultsに待避
+	$defaults = $_POST;
 
 	// フォームに入力された値のチェック
 	$errors = check();
@@ -18,12 +19,16 @@ if(isset($_POST['submit'])){
 		if(!$result){
 			$errors['result'] = '書き込みに失敗しました';
 		}else{
-			// 一度、書き込んだ後、ブラウザのリロードで、同じ投稿が書き込まれてしまう
-			// 問題の修正
+			// １度書き込んだ後、ブラウザのreloadで、同じデータが書き込まれてしまう問題を
+			// 修正
 			header("Location: http://". $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME']);
 			exit;
 		}
 	}
+}else{
+	$defaults = array();
+	$defaults['name'] = '';
+	$defaults['comment'] = '';
 }
 ?>
 <!DOCTYPE html>
@@ -44,6 +49,21 @@ ul.error {
 	color: red;
 }
 </style>
+<script type="text/javascript" src="CheckUtil.js"></script>
+<script type="text/javascript">
+<!--
+
+function check() {
+
+	var c = new CheckUtil();
+
+	c.requiredCheck(document.fm.name.value, "名前");
+	c.requiredCheck(document.fm.comment.value, "コメント");
+
+	return c.getErrors();
+}
+//-->
+</script>
 </head>
 <body>
 <h1>ひよこ掲示板</h1>
@@ -56,11 +76,14 @@ foreach($errors as $msg){
 }
 ?>
 </ul>
-<form action="<?php print $_SERVER['SCRIPT_NAME']; ?>" method="post">
+<form action="<?php print $_SERVER['SCRIPT_NAME']; ?>"
+ method="post" name="fm">
 名前<br />
-<input type="text" name="name" value="" size="24"><br />
+<input type="text" name="name" value="<?php print $defaults['name']; ?>" size="24"><br />
 コメント<br />
-<textarea name="comment" cols="40" rows="3"></textarea><br />
+<textarea name="comment" cols="40" rows="3">
+<?php print $defaults['comment']; ?>
+</textarea><br />
 <input type="submit" name="submit" value="書き込み"><br />
 </form>
 <?php
