@@ -20,7 +20,13 @@ $db->setErrorHandling(PEAR_ERROR_DIE);
 // 文字列キー付き配列にフェッチモードを変更
 $db->setFetchMode(MDB2_FETCHMODE_ASSOC);
 
-$rows = $db->queryAll('SELECT * FROM employees');
+$sql = 'select e.empno, e.ename, e.yomi, e.job, m.ename mgr, ';
+$sql .= 'e.hiredate, e.sal, e.comm, dname ';
+$sql .= 'from employees e left outer join employees m on e.mgr = m.empno ';
+$sql .= 'join departments d on e.deptno = d.deptno ';
+$sql .= 'order by e.empno';
+
+$rows = $db->queryAll($sql);
 
 /*
 foreach($rows as $row){
@@ -35,6 +41,11 @@ foreach($rows as $row){
 <head>
 <meta charset="UTF-8">
 <title>データベース接続</title>
+<style>
+td.right {
+	text-align: right;
+}
+</style>
 </head>
 <body>
 <table border='1'>
@@ -43,11 +54,11 @@ foreach($rows as $row){
 <th>社員名</th>
 <th>ローマ字</th>
 <th>職種</th>
-<th>上司番号</th>
+<th>上司名</th>
 <th>入社日</th>
 <th>給与</th>
 <th>歩合</th>
-<th>部門番号</th>
+<th>部門名</th>
 </tr>
 <?php foreach($rows as $row){ ?>
 <tr>
@@ -57,9 +68,9 @@ foreach($rows as $row){
 <td><?php echo $row['job']; ?></td>
 <td><?php echo $row['mgr']; ?></td>
 <td><?php echo $row['hiredate']; ?></td>
-<td><?php echo $row['sal']; ?></td>
-<td><?php echo $row['comm']; ?></td>
-<td><?php echo $row['deptno']; ?></td>
+<td><?php echo number_format($row['sal']); ?></td>
+<td class='right'><?php echo number_format($row['comm']); ?></td>
+<td><?php echo $row['dname']; ?></td>
 </tr>
 <?php } ?>
 </table>
