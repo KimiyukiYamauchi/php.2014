@@ -18,18 +18,24 @@ $db->setErrorHandling(PEAR_ERROR_DIE);
 //print '接続成功！';
 
 // 許される食事は何かを定義する
-$meals = array('breakfast', 'lunch', 'dinner');
+$meals = array('breakfast' => '朝食', 'lunch' => '昼食' , 'dinner'=> '夕食');
 
-//var_dump($_GET);
+//var_dump($_POST);
 
-// サブミットされたフォームパラメータの"meal"が、
-// "breakfast", "lunch", "dinner"のうち１つであることを確認する
-if(in_array($_GET['meal'], $meals)){
-	$unknown = false;
-	// その場合、指定された食事のすべての料理を得る
-	$q = $db->query("SELECT dish, price FROM meals WHERE meal LIKE '" . $_GET['meal'] . "'");
+if(isset($_POST['submit'])){
+	// サブミットされたフォームパラメータの"meal"が、
+	// "breakfast", "lunch", "dinner"のうち１つであることを確認する
+	if(array_key_exists($_POST['meal'], $meals)){
+		$unknown = false;
+		// その場合、指定された食事のすべての料理を得る
+		$sth = $db->prepare("SELECT dish, price FROM meals WHERE meal LIKE ?");
+		$q = $sth->execute(array($_POST['meal']));
+	}else{
+		$unknown = true;
+	}
 }else{
-	$unknown = true;
+	$unknown = false;
+	$q = $db->query("SELECT dish, price FROM meals");
 }
 
 ?>
@@ -40,6 +46,19 @@ if(in_array($_GET['meal'], $meals)){
 <title>データベースに接続</title>
 </head>
 <body>
+<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method='post'>
+<select name="meal">
+<?php foreach($meals as $key => $value): ?>
+<?php if(isset($_POST['submit'])) : ?>
+<option value="<?php echo $key; ?>" <?php echo $key == $_POST['meal'] ? 'selected' : '' ?>><?php echo $value; ?></option>
+<?php else : ?>
+<option value="<?php echo $key; ?>" ><?php echo $value; ?></option>
+<?php endif; ?>
+<?php endforeach; ?>
+</select>
+<input type="submit" value="検索" name='submit'>
+</form>
+<hr />
 <?php if($unknown == true || $q->numrows() == 0): ?>
 <p>No dishes available.</p>
 <?php else: ?>

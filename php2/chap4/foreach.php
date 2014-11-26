@@ -8,10 +8,10 @@ $meal = array('breakfast' => 'Walnut Bun',
 							'snack' => 'Dried MulBerries',
 							'dinner' => 'Eggplant with Chili Souce');
 
-$mealjp = array('朝食' => 'トースト',
-							'昼食' => 'スパゲティ',
+$mealjp = array('か朝食' => 'トースト',
+							'さ昼食' => 'スパゲティ',
 							'おやつ' => 'ドーナツ',
-							'夕食' => 'すき焼き');
+							'き夕食' => 'すき焼き');
 
 print "Before Sorting:<br />\n";
 print '<p>';
@@ -24,9 +24,17 @@ foreach($meal as $key => $value){
 	print "\$meal: $key $value<br />\n";
 }
 print '</p>';
+print '<p>';
+foreach($mealjp as $key => $value){
+	print "\$mealjp: $key $value<br />\n";
+}
+print '</p>';
 
 sort($dinner);
-sort($meal);
+//sort($meal);
+//asort($meal);
+ksort($meal);
+ksort($mealjp);
 
 print "After Sorting:<br />\n";
 print '<p>';
@@ -37,6 +45,11 @@ print '</p>';
 print '<p>';
 foreach($meal as $key => $value){
 	print "\$meal: $key $value<br />\n";
+}
+print '</p>';
+print '<p>';
+foreach($mealjp as $key => $value){
+	print "\$mealjp: $key $value<br />\n";
 }
 print '</p>';
 

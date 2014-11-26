@@ -77,7 +77,7 @@ foreach($errors as $msg){
 ?>
 </ul>
 <form action="<?php print $_SERVER['SCRIPT_NAME']; ?>"
- method="post" name="fm">
+ method="post" name="fm" onsubmit='return check()'>
 名前<br />
 <input type="text" name="name" value="<?php print $defaults['name']; ?>" size="24"><br />
 コメント<br />
