@@ -1,4 +1,5 @@
 <?php
+
 // ホームヘルパー関数のコードをインクルード
 require_once 'formhelpers.php';
 // show_form()、validate_form()及びprocess_form()
@@ -23,12 +24,15 @@ function process_form(){
 
 // フォームを表示
 function show_form($errors = ''){
-	global $main_dishes;
+	global $main_dishes, $sweets;
 
 	// フォームがサブミットされたら、
 	// サブミットされたパラメータからデフォルト値を取得
 	if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
 		$defaults = $_POST;
+		if(!isset($_POST['delivery'])){
+			$defaults['delivery'] = 'no';
+		}
 	}else{
 		$defaults = array();
 		$defaults['my_name'] = '';
@@ -38,6 +42,7 @@ function show_form($errors = ''){
 		$defaults['main_dish'] = array('katsu');
 		$defaults['delivery'] = 'yes';
 		$defaults['size'] = 'medium';
+		$defaults['comments'] = '';
 	}
 
 	// 何かエラーが渡されると、それを出力
@@ -63,57 +68,51 @@ function show_form($errors = ''){
 
 <tr>
 <td>メールアドレス：</td>
-<td><input type="text" name="email" value="<?php echo h($defaults['email']); ?>"></td>
+<td><?php input_text('email', $defaults); ?></td>
 </tr>
 
 <tr>
 <td>年齢：</td>
-<td><input type="text" name="age" size="2" value="<?php echo h($defaults['age']); ?>"></td>
+<td><?php input_text('age', $defaults); ?></td>
 </tr>
+
+<tr><td>Size:</td>
+<td>
+<?php input_radiocheck('radio', 'size', $defaults, 'small'); ?>Small<br />
+<?php input_radiocheck('radio', 'size', $defaults, 'medium'); ?>Medium<br />
+<?php input_radiocheck('radio', 'size', $defaults, 'large'); ?>Large
+</td></tr>
 
 <tr>
 <td>料理を選択してくください（複数選択可）：</td>
 <td>
-<select name="main_dish[]" multiple="multiple">
-<?php
-$selected_options = array();
-foreach($defaults['main_dish'] as $option){
-	$selected_options[$option] = true;
-}
-
-// <option>タグを出力
-foreach($main_dishes as $option => $label){
-	print '<option value="' . h($option) . '"';
-	if(array_key_exists($option, $selected_options)){
-		print ' selected="selected"';
-	}
-	print '>' . h($label) . '</option>';
-	print "\n";
-}
-?>
-</select>
+<?php input_select('main_dish', $defaults, $main_dishes, true); ?>
 </td>
 </tr>
 
 <tr>
 <td>デザートを選択してください:</td>
 <td>
-<select name="order">
-<?php
-foreach($GLOBALS['sweets'] as $key => $choice){
-	print "<option value=\"" . $key . '"';
-	if($key == $defaults['order']){
-		print ' selected="selected"';
-	}
-	print ">$choice</option>\n";
-}
-?>
-</select>
+<?php input_select('order', $defaults, $sweets); ?>
 </td>
 </tr>
 
+<tr><td>デリバリーしますか？</td>
+<td>
+<?php input_radiocheck('checkbox', 'delivery', $defaults, 'yes'); ?>Yes
+</td>
+</tr>
+
+<tr><td>その他の要望<br />
+デリバリして欲しい場合は、ここに住所を記入してください：</td>
+<td>
+<?php input_textarea('comments', $defaults); ?>
+</td>
+</tr>
+
+
 <tr>
-<td colspan="2" align="center"><input type="submit" value="Say Hello"></td>
+<td colspan="2" align="center"><?php input_submit('save', 'Order'); ?></td>
 </tr>
 
 </table>

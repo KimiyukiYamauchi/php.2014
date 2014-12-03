@@ -24,7 +24,7 @@ function input_textarea($element_name, $values){
 
 // ラジオボタンまたはチェックボックス出力
 function input_radiocheck($type, $element_name, $values, $element_value){
-	print '<input type"' . $type . '" name="' . $element_name . '" value="' . $element_value . '" ';
+	print '<input type="' . $type . '" name="' . $element_name . '" value="' . $element_value . '" ';
 	if($element_value == $values[$element_name]){
 		print ' checked="checked"';
 	}
@@ -47,13 +47,13 @@ function input_select($element_name, $selected, $options, $mutiple = false){
 			$selected_options[$val] = true;
 		}
 	}else{
-		$selected_options[$element_name] = true;
+		$selected_options[$selected[$element_name]] = true;
 	}
 
 	// <option>タグを出力
 	foreach($options as $option => $label){
 		print '<option value="' . h($option) . '"';
-		if($selected_options[$option]){
+		if(array_key_exists($option, $selected_options)){
 			print ' selected="selected"';
 		}
 		print '>' . h($label) . '</option>';
