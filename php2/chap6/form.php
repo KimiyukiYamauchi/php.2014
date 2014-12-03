@@ -1,4 +1,8 @@
 <?php
+// ホームヘルパー関数のコードをインクルード
+require_once 'formhelpers.php';
+// show_form()、validate_form()及びprocess_form()
+// で、参照するので以下の配列はグローバル宣言する
 $main_dishes = array('katsu' => 'カツ丼',
 											'ten' => '天丼',
 											'oya' => '親子丼',
@@ -11,16 +15,6 @@ $sweets = array('cue' => 'シュークリーム',
 								'mon' => 'モンブラン',
 								'cho' => 'チョコレートケーキ');
 
-if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
-	$defaults = $_POST;
-}else{
-	$defaults = array();
-	$defaults['my_name'] = '';
-	$defaults['email'] = '';
-	$defaults['age'] = '';
-	$defaults['order'] = 'cue';
-	$defaults['main_dish'] = array('katsu');
-}
 
 // フォームがサブミットされたときに何かをする
 function process_form(){
@@ -29,24 +23,57 @@ function process_form(){
 
 // フォームを表示
 function show_form($errors = ''){
-	global $defaults, $main_dishes;
+	global $main_dishes;
+
+	// フォームがサブミットされたら、
+	// サブミットされたパラメータからデフォルト値を取得
+	if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
+		$defaults = $_POST;
+	}else{
+		$defaults = array();
+		$defaults['my_name'] = '';
+		$defaults['email'] = '';
+		$defaults['age'] = '';
+		$defaults['order'] = 'cue';
+		$defaults['main_dish'] = array('katsu');
+		$defaults['delivery'] = 'yes';
+		$defaults['size'] = 'medium';
+	}
+
 	// 何かエラーが渡されると、それを出力
 	if($errors){
-		print '以下のエラーを修正してください:<ul><li>';
-		print implode('</li><li>', $errors);
-		print '</li></ul>';
+		$error_text = '<tr><td>エラーを修正してください:';
+		$error_text .= '</td><td><ul><li>';
+		$error_text .=  implode('</li><li>', $errors);
+		$error_text .= '</li></ul></td></tr>';
+	}else{
+		// エラーがなければ、$error_textはブランクにする
+		$error_text = '';
 	}
 ?>
 
 <form method="POST" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
-Your name: <input type="text" name="my_name" value="<?php echo h($defaults['my_name']); ?>">
-<br />
-<p>
-メールアドレス：<input type="text" name="email" value="<?php echo h($defaults['email']); ?>">
-</p>
-<p>年齢：<input type="text" name="age" size="2" value="<?php echo h($defaults['age']); ?>"></p>
-<p>料理を選択してくください（複数選択可）：</p>
-<p>
+<table>
+<?php print $error_text; ?>
+
+<tr>
+<td>Your name:</td> 
+<td><?php input_text('my_name', $defaults); ?></td>
+</tr>
+
+<tr>
+<td>メールアドレス：</td>
+<td><input type="text" name="email" value="<?php echo h($defaults['email']); ?>"></td>
+</tr>
+
+<tr>
+<td>年齢：</td>
+<td><input type="text" name="age" size="2" value="<?php echo h($defaults['age']); ?>"></td>
+</tr>
+
+<tr>
+<td>料理を選択してくください（複数選択可）：</td>
+<td>
 <select name="main_dish[]" multiple="multiple">
 <?php
 $selected_options = array();
@@ -65,9 +92,13 @@ foreach($main_dishes as $option => $label){
 }
 ?>
 </select>
-</p>
-<p>
-デザートを選択してください:<select name="order">
+</td>
+</tr>
+
+<tr>
+<td>デザートを選択してください:</td>
+<td>
+<select name="order">
 <?php
 foreach($GLOBALS['sweets'] as $key => $choice){
 	print "<option value=\"" . $key . '"';
@@ -78,8 +109,15 @@ foreach($GLOBALS['sweets'] as $key => $choice){
 }
 ?>
 </select>
-</p>
-<input type="submit" value="Say Hello">
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="center"><input type="submit" value="Say Hello"></td>
+</tr>
+
+</table>
+
 <input type="hidden" name="_submit_check" value="1">
 </form>
 
@@ -117,10 +155,11 @@ function validate_form(){
 	// エラーメッセージの配列（エラーがなければ空）を返す
 	return $errors;
 }
-
+/*
 function h($str){
 	return htmlentities($str, ENT_QUOTES, 'UTF-8');
 }
+ */
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -132,17 +171,21 @@ function h($str){
 
 <?php
 
-// サブミットされたフォームパラメータをベースに
-// なすべきことをするロジック
-if(array_key_exists('_submit_check', $_POST)){ // サブミットされた?
-	if($form_erros = validate_form()){ // $_POSTのチェック
+// メインページのロジック：
+// - フォームがサブミットされた場合は検証して処理、
+// - サブミットされなかった場合はフォームを表示
+if(array_key_exists('_submit_check', $_POST)){
+	// サブミットされたデータが正しければ、それを処理
+	if($form_erros = validate_form()){
 		show_form($form_erros); // フォームを再表示
 	}else{
 		process_form(); // 処理を実行
 	}
 }else{
+	// サブミットされていなければフォームを表示
 	show_form(); // フォームを表示
 }
+
 
 ?>
 	
