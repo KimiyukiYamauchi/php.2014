@@ -19,7 +19,38 @@ $sweets = array('cue' => 'シュークリーム',
 
 // フォームがサブミットされたときに何かをする
 function process_form(){
-	print "Hello, ". $_POST['my_name'];
+	//print "Hello, ". $_POST['my_name'];
+
+	global $sweets, $main_dishes;
+
+	// スイーツと料理の正式名称を見つける
+	$sweet = $sweets[$_POST['order']];
+	$main_dish_1 = $main_dishes[$_POST['main_dish'][0]];
+	$main_dish_2 = $main_dishes[$_POST['main_dish'][1]];
+	if(isset($_POST['delivery']) && $_POST['delivery'] == 'yes'){
+		$delivery = 'do';
+	}else{
+		$delivery = 'do not';
+	}
+
+	// 注文メッセージのテキストを組み立てる
+	$message = <<<_ORDER_
+Thank you for your order, $_POST[my_name].
+Your requested the $_POST[size] size of $sweet , $main_dish_1 , and $main_dish_2 .
+You $delivery want delivery.
+_ORDER_;
+
+	if(mb_strlen(trim($_POST['comments']))){
+		$message .= 'Your comments: ' . $_POST['comments'];
+	}
+
+	// メッセージをメールで送信
+	mail('yamauchi@std.it-college.ac.jp', 'New Order', $message);
+	
+	// メッセージを出力しますが、HTMLのエンティティは
+	// すべてエンコードして、改行は<br />タグに変更
+	print nl2br(h($message));
+	
 }
 
 // フォームを表示
@@ -124,11 +155,14 @@ function show_form($errors = ''){
 }
 
 function validate_form(){
+
+	global $main_dishes;
+
 	// エラーメッセージを格納する配列を初期化
 	$errors = array();
 
 	// 名前が短すぎる場合のチェック
-	if(mb_strlen($_POST['my_name']) < 3){
+	if(mb_strlen(trim($_POST['my_name'])) < 3){
 		$errors[] = '名前は３文字以上で入力してください';
 	}
 
@@ -146,9 +180,33 @@ function validate_form(){
 		$errors[] = '年齢は１８歳以上６５歳以下で入力してください';
 	}
 
-	// orderでの選択のチェック
+	// sizeが必要
+	if(($_POST['size'] != 'small') && ($_POST['size'] != 'medium') &&
+			($_POST['size'] != 'large')){
+		$errors[] = 'サイズを正しく選択してください';
+	}
+
+	// orderでの選択のチェック(sweets)
 	if(!array_key_exists($_POST['order'], $GLOBALS['sweets'])){
 		$errors[] = 'メニューから選択してください';
+	}
+
+	// メインデッシュが２つ選択されていること
+	if(count($_POST['main_dish']) != 2){
+		$errors[] = '料理は２つ選択してください';
+	}else{
+		// ２つ選択されているので、その内容をチェック
+		// メニューにある料理かどうか
+		if(!(array_key_exists($_POST['main_dish'][0], $main_dishes) &&
+				array_key_exists($_POST['main_dish'][1], $main_dishes))){
+			$errors[] = '料理はメニューから選択してください';
+		}
+	}
+
+	// deliveryがチェックされたら、コメントには何かが含まれる
+	if(isset($_POST['delivery']) && ($_POST['delivery'] == 'yes') 
+			&& (!mb_strlen(trim($_POST['comments'])))){
+		$errors[] = 'デリバリを選択した際には、コメントに住所を記入してください';
 	}
 
 	// エラーメッセージの配列（エラーがなければ空）を返す
