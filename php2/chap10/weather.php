@@ -13,3 +13,4 @@ $end_page = strpos($weather_page,
 $weather_page = substr($weather_page, 0, $end_page);
 
 print $weather_page;
+file_put_contents("weather-$zip.txt", $weather_page);

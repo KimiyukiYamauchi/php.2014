@@ -79,18 +79,8 @@ function show_calendar($month, $year){
 	// その月の初日の真夜中のエポックタイムスタンプを見つける
 	$first_day = mktime(0,0,0, $month, 1, $year);
 
-	$birthday = mktime(0,0,0, 3, 13, $year);
-
 	// その月に何日あるか？
 	$days_in_month = date('t', $first_day);
-
-	$last_day = mktime(0,0,0, $month, $days_in_month, $year);
-
-	if($first_day <= $birthday && $last_day >= $birthday){
-		$birthday_flg = true;
-	}else{
-		$birthday_flg = false;
-	}
 
 	// その週の何番目の日(数値的に）がその月の初日になるか？
 	// 最初のテーブルセルを正しい場所に置くために必要
@@ -117,12 +107,12 @@ _HTML_;
 
 	// その月のそれぞれの日のためのテーブルセルが出力される
 	for($day=1; $day<= $days_in_month; $day++){
-		if($day_offset == 0){
-			print '<td align="center" style="color:red">' . $day . '</td>';
+		if($month == 3 && $day == 13){
+			print '<td align="center" style="color:green">' . $day . '</td>';
 		}elseif($day_offset == 6){
 			print '<td align="center" style="color:blue">' . $day . '</td>';
-		}elseif($birthday_flg == true && $day == 13){
-			print '<td align="center" style="color:green">' . $day . '</td>';
+		}elseif($day_offset == 0){
+			print '<td align="center" style="color:red">' . $day . '</td>';
 		}else{
 			print '<td align="center">' . $day . '</td>';
 		}

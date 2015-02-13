@@ -1,0 +1,3 @@
+The price of カツ丼 is 5.25 
+The price of 天丼 is 6.25 
+The price of カレー is 3.75 

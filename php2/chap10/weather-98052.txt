@@ -1,0 +1,55 @@
+<div class="div-full" id="point_forecast_icons"><div class="point-forecast-icons">        <div class="one-ninth-first">
+                <p class="txt-ctr-caps">Overnight<br><br></p>
+                <p><img src="/images/wtf/medium/nra10.png" width="86" height="86" alt="Slight Chance Rain Chance for Measurable Precipitation 10%" title="Slight Chance Rain Chance for Measurable Precipitation 10%" class="period-icon" /></p>
+            <p>Slight Chc<br>Rain<br></p>
+                <p class="point-forecast-icons-low">Low: 47 &deg;F</p>
+        </div>
+        <div class="one-ninth-first">
+                <p class="txt-ctr-caps">Thursday<br><br></p>
+                <p><img src="/images/wtf/medium/ra30.png" width="86" height="86" alt="Chance Rain Chance for Measurable Precipitation 30%" title="Chance Rain Chance for Measurable Precipitation 30%" class="period-icon" /></p>
+            <p>Chance<br>Rain<br></p>
+                <p class="point-forecast-icons-high">High: 58 &deg;F</p>
+        </div>
+        <div class="one-ninth-first">
+                <p class="txt-ctr-caps">Thursday<br>Night</p>
+                <p><img src="/images/wtf/medium/nra30.png" width="86" height="86" alt="Chance Rain Chance for Measurable Precipitation 30%" title="Chance Rain Chance for Measurable Precipitation 30%" class="period-icon" /></p>
+            <p>Chance<br>Rain<br></p>
+                <p class="point-forecast-icons-low">Low: 47 &deg;F</p>
+        </div>
+        <div class="one-ninth-first">
+                <p class="txt-ctr-caps">Friday<br><br></p>
+                <p><img src="/images/wtf/medium/ra30.png" width="86" height="86" alt="Chance Rain Chance for Measurable Precipitation 30%" title="Chance Rain Chance for Measurable Precipitation 30%" class="period-icon" /></p>
+            <p>Chance<br>Rain<br></p>
+                <p class="point-forecast-icons-high">High: 60 &deg;F</p>
+        </div>
+        <div class="one-ninth-first">
+                <p class="txt-ctr-caps">Friday<br>Night</p>
+                <p><img src="/images/wtf/medium/nshra70.png" width="86" height="86" alt="Showers Likely Chance for Measurable Precipitation 70%" title="Showers Likely Chance for Measurable Precipitation 70%" class="period-icon" /></p>
+            <p>Showers<br>Likely<br></p>
+                <p class="point-forecast-icons-low">Low: 48 &deg;F</p>
+        </div>
+        <div class="one-ninth-first">
+                <p class="txt-ctr-caps">Saturday<br><br></p>
+                <p><img src="/images/wtf/medium/bkn.png" width="86" height="86" alt="Partly Sunny" title="Partly Sunny" class="period-icon" /></p>
+            <p>Partly<br>Sunny<br></p>
+                <p class="point-forecast-icons-high">High: 56 &deg;F</p>
+        </div>
+        <div class="one-ninth-first">
+                <p class="txt-ctr-caps">Saturday<br>Night</p>
+                <p><img src="/images/wtf/medium/nbkn.png" width="86" height="86" alt="Mostly Cloudy" title="Mostly Cloudy" class="period-icon" /></p>
+            <p>Mostly<br>Cloudy<br></p>
+                <p class="point-forecast-icons-low">Low: 41 &deg;F</p>
+        </div>
+        <div class="one-ninth-first">
+                <p class="txt-ctr-caps">Sunday<br><br></p>
+                <p><img src="/images/wtf/medium/sct.png" width="86" height="86" alt="Mostly Sunny" title="Mostly Sunny" class="period-icon" /></p>
+            <p>Mostly<br>Sunny<br></p>
+                <p class="point-forecast-icons-high">High: 52 &deg;F</p>
+        </div>
+        <div class="one-ninth-first">
+                <p class="txt-ctr-caps">Sunday<br>Night</p>
+                <p><img src="/images/wtf/medium/nfew.png" width="86" height="86" alt="Mostly Clear" title="Mostly Clear" class="period-icon" /></p>
+            <p>Mostly<br>Clear<br></p>
+                <p class="point-forecast-icons-low">Low: 37 &deg;F</p>
+        </div>
+</div></div>
