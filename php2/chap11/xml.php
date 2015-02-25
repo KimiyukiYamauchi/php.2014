@@ -27,5 +27,20 @@ _XML_;
 
 $xml = simplexml_load_string($menu);
 
+/*
 print "The {$xml->channel->title} channel is available at {$xml->channel->link}<br />";
 print "The description is \"{$xml->channel->description}\"<br />";
+
+print $xml['version'] . "<br />\n";
+ */
+//$xml['version'] = '6.3';
+$xml->channel->title = strtoupper($xml->channel->title);
+
+for($i=0; $i<3; $i++){
+	$xml->channel->item[$i]->link =
+		str_replace('menu.example.com', 'dinner.example.org',
+			$xml->channel->item[$i]->link);
+}
+
+header('Content-Type: text/xml');
+print $xml->asXML();
