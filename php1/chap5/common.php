@@ -5,7 +5,8 @@ mb_language("ja");
 setlocale(LC_ALL, "ja_JP.UTF-8");
 
 // csvで利用するファイル名を指定
-$bbs_file = "bbs.csv";
+//$bbs_file = "bbs.csv";
+$bbs_file = "bbs_matome.csv";
 
 // エスケープを行うラッパ関数を定義
 function h($str) {
@@ -20,7 +21,15 @@ function bbs_read() {
 	$handle = fopen($bbs_file, "r");
 
 	// 開いたポインタからデータを１行ずつ取得して配列に格納
-	while($csv = fgetcsv($handle)){
+	/*while($csv = fgetcsv($handle)){
+		$record["name"] = $csv[0];
+		$record["comment"] = $csv[1];
+		$record["time"] = $csv[2];
+		$records[] = $record;
+	}*/
+	for($line = fgets($handle); !feof($handle); $line = fgets($handle)){
+		$csv = explode(',', $line);
+		var_dump($csv);
 		$record["name"] = $csv[0];
 		$record["comment"] = $csv[1];
 		$record["time"] = $csv[2];
